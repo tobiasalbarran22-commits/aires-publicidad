@@ -30,9 +30,11 @@ export default function Empresa({ serviceCount }) {
 
           <Reveal>
             <p className="body-copy">
-              Brindamos servicios de cartelería integral: diseño, fabricación y colocación bajo
-              un mismo equipo. Escuchamos de cerca las necesidades de cada cliente para responder
-              con soluciones que realmente funcionan para su marca, su local o su empresa.
+              Brindamos servicios de cartelería integral: letras corpóreas, marquesinas, carteles
+              en chapa y Alucobond, banners y gigantografías, señalética y vinilo — diseño,
+              fabricación y colocación bajo un mismo equipo. Escuchamos de cerca las necesidades
+              de cada cliente para responder con soluciones que realmente funcionan para su
+              marca, su local o su empresa.
             </p>
             <p className="body-copy" style={{ marginTop: 16 }}>
               Nos diferencian la creatividad, las tecnologías contemporáneas y nuestro compromiso

@@ -11,7 +11,7 @@ const LINKS = [
   { href: "#contacto", label: "Contacto" },
 ];
 
-export default function SiteHeader({ whatsappHref }) {
+export default function SiteHeader({ whatsappHref, phone, telHref }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -54,6 +54,11 @@ export default function SiteHeader({ whatsappHref }) {
         </nav>
 
         <div className="nav-cta">
+          {phone ? (
+            <a href={telHref} className="nav-phone">
+              {phone}
+            </a>
+          ) : null}
           <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm">
             WhatsApp
           </a>
@@ -75,6 +80,7 @@ export default function SiteHeader({ whatsappHref }) {
             {l.label}
           </a>
         ))}
+        {phone ? <a href={telHref}>{phone}</a> : null}
       </nav>
     </>
   );

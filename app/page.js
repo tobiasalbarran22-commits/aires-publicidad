@@ -27,7 +27,11 @@ export default async function HomePage() {
 
   return (
     <>
-      <SiteHeader whatsappHref={waHref} />
+      <SiteHeader
+        whatsappHref={waHref}
+        phone={settings.phones?.[0]}
+        telHref={settings.whatsapp ? `tel:+${settings.whatsapp}` : undefined}
+      />
       <div className="snap-scroll">
         <Hero whatsappHref={waHref} />
         <Empresa serviceCount={SERVICIOS.length} />

@@ -46,8 +46,9 @@ export default function Hero({ whatsappHref }) {
         </h1>
 
         <p className="lede">
-          Diseñamos, fabricamos y colocamos carteles corpóreos, marquesinas y señalética para
-          locales, oficinas y fachadas. Un proyecto, un mismo equipo, de punta a punta.
+          Diseñamos, fabricamos y colocamos carteles corpóreos, marquesinas backlight y
+          frontlight, chapa y Alucobond, señalética y gráfica vehicular — con iluminación LED
+          cuando el proyecto lo pide. Un proyecto, un mismo equipo, de punta a punta.
         </p>
 
         <div className="hero-foot">

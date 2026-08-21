@@ -159,6 +159,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 .nav-links-desktop a:hover, .nav-links-mobile a:hover { opacity: 1; color: var(--accent); }
 .nav-links-mobile { display: none; }
 .nav-cta { display: flex; align-items: center; gap: 12px; }
+.nav-phone { font-size: 0.88rem; font-weight: 600; color: var(--fg); opacity: 0.82; white-space: nowrap; transition: opacity 0.2s, color 0.2s; }
+.nav-phone:hover { opacity: 1; color: var(--accent); }
 .nav-toggle {
   display: none; width: 40px; height: 40px; padding: 0; border: none; background: transparent; cursor: pointer;
   position: relative; flex: none;
@@ -187,7 +189,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .nav-links-mobile.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
   .nav-links-mobile a { font-size: 1.4rem; }
   .nav-toggle { display: inline-flex; z-index: 70; }
-  .nav-cta .btn-ghost { display: none; }
+  .nav-cta .btn-ghost, .nav-cta .nav-phone { display: none; }
 }
 
 /* ---------- Hero ---------- */
