@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Reveal from "./Reveal";
+import Parallax from "./Parallax";
 
 export default function Empresa({ serviceCount }) {
   const stats = [
@@ -11,13 +12,15 @@ export default function Empresa({ serviceCount }) {
   return (
     <section id="empresa" className="section empresa">
       <div className="container empresa-grid">
-        <Reveal as="figure" className="empresa-figure" style={{ margin: 0 }}>
-          <Image
-            src="/uploads/ig-02.jpg"
-            alt="Letras corpóreas iluminadas, trabajo de Aires Publicidad"
-            fill
-            sizes="(max-width: 900px) 340px, (max-width: 1180px) 50vw, 548px"
-          />
+        <Reveal as="figure" variant="cinema" className="empresa-figure" style={{ margin: 0 }}>
+          <Parallax>
+            <Image
+              src="/uploads/ig-02.jpg"
+              alt="Letras corpóreas iluminadas, trabajo de Aires Publicidad"
+              fill
+              sizes="(max-width: 900px) 340px, (max-width: 1180px) 50vw, 548px"
+            />
+          </Parallax>
         </Reveal>
 
         <div>

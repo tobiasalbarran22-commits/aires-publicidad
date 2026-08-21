@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "C:\\Users\\gujar\\OneDrive\\Escritorio\\concecionaria", "run", "dev"],
       "port": 3100
+    },
+    {
+      "name": "aires-publicidad",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:\\Users\\gujar\\OneDrive\\Escritorio\\aires-publicidad", "run", "dev", "--", "-p", "3200"],
+      "port": 3200
     }
   ]
 }

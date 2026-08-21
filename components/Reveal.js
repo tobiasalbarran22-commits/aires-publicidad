@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function Reveal({ as: Tag = "div", className = "", stagger = false, children, ...props }) {
+export default function Reveal({ as: Tag = "div", className = "", stagger = false, variant = "", children, ...props }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -24,9 +24,8 @@ export default function Reveal({ as: Tag = "div", className = "", stagger = fals
     return () => obs.disconnect();
   }, []);
 
-  const cls = [stagger ? "reveal-stagger" : "reveal", visible ? "is-visible" : "", className]
-    .filter(Boolean)
-    .join(" ");
+  const base = variant ? `reveal-${variant}` : stagger ? "reveal-stagger" : "reveal";
+  const cls = [base, visible ? "is-visible" : "", className].filter(Boolean).join(" ");
 
   return (
     <Tag ref={ref} className={cls} {...props}>
