@@ -208,6 +208,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, transparent, black 20%, black 75%, transparent);
 }
+.hero-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+.hero-photo img { object-fit: cover; animation: heroKenBurns 24s ease-in-out infinite alternate; transform-origin: 62% 38%; }
+.hero-photo-veil { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.74); }
+@keyframes heroKenBurns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.16) translate(-1.8%, -1.2%); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo img { animation: none; transform: scale(1.06); }
+}
 .hero-inner {
   position: relative; z-index: 2; padding: 200px clamp(20px, 4vw, 56px) 80px;
   max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;

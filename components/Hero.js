@@ -1,3 +1,5 @@
+import HeroPhoto from "./HeroPhoto";
+
 const LEAD_WORDS = ["Aires,", "tu", "marca", "en"];
 
 // No hay datos verificados de años en el mercado ni de proyectos realizados
@@ -23,6 +25,10 @@ export default function Hero({ whatsappHref }) {
   let delayIndex = 0;
   return (
     <section id="top" className="hero">
+      <HeroPhoto
+        src="/uploads/ig-09.jpg"
+        alt="Cartel corpóreo iluminado fabricado por Aires Publicidad"
+      />
       <div className="hero-grid" aria-hidden="true" />
       <div className="hero-inner">
         <h1 className="hero-title">
