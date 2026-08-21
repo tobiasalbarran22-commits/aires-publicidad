@@ -1,0 +1,14 @@
+{
+  "note": "Valores de ejemplo para la maqueta — actualizalos desde el panel de administración (Precios) antes de publicar el sitio.",
+  "sizeMultipliers": { "chico": 1, "mediano": 1.6, "grande": 2.4 },
+  "ledMultiplier": 1.35,
+  "items": [
+    { "id": "marquesinas", "base": 220000 },
+    { "id": "letras-corporeas", "base": 90000 },
+    { "id": "chapa-alucobond", "base": 200000 },
+    { "id": "backlight-frontlight", "base": 260000 },
+    { "id": "senaletica-vinilo", "base": 60000 },
+    { "id": "banners-gigantografias", "base": 45000 },
+    { "id": "trabajos-especiales", "base": 180000 }
+  ]
+}

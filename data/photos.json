@@ -1,0 +1,11 @@
+[
+  { "id": "p-lc-1", "category": "letras-corporeas", "alt": "Letras corpóreas iluminadas Farmacia Igoillo", "url": "/uploads/ig-02.jpg" },
+  { "id": "p-lc-2", "category": "letras-corporeas", "alt": "Letras corpóreas Crocs", "url": "/uploads/ig-03.jpg" },
+  { "id": "p-lc-3", "category": "letras-corporeas", "alt": "Letras corpóreas Bonafide", "url": "/uploads/ig-04.jpg" },
+  { "id": "p-lc-4", "category": "letras-corporeas", "alt": "Letras corpóreas elique", "url": "/uploads/ig-08.jpg" },
+  { "id": "p-bf-1", "category": "backlight-frontlight", "alt": "Backlight Suarez Negocios Inmobiliarios", "url": "/uploads/ig-05.jpg" },
+  { "id": "p-ca-1", "category": "chapa-alucobond", "alt": "Cartel en chapa Lama Pádel", "url": "/uploads/ig-09.jpg" },
+  { "id": "p-sv-1", "category": "senaletica-vinilo", "alt": "Vinilo en vidriera Bianco & Nero", "url": "/uploads/ig-01.jpg" },
+  { "id": "p-te-1", "category": "trabajos-especiales", "alt": "Cartel JOBS Bowling", "url": "/uploads/ig-06.jpg" },
+  { "id": "p-te-2", "category": "trabajos-especiales", "alt": "Cartel institucional Colegio F. Faa Di Bruno", "url": "/uploads/ig-07.jpg" }
+]

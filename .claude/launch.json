@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "turnera-pilates",
+      "runtimeExecutable": "C:\\Users\\gujar\\OneDrive\\Escritorio\\turnera_pilates\\venv\\Scripts\\python.exe",
+      "runtimeArgs": ["C:\\Users\\gujar\\OneDrive\\Escritorio\\turnera_pilates\\run.py"],
+      "port": 5000
+    },
+    {
+      "name": "tm-motors",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "C:\\Users\\gujar\\OneDrive\\Escritorio\\concecionaria", "run", "dev"],
+      "port": 3100
+    }
+  ]
+}
