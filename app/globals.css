@@ -142,28 +142,16 @@ ul { margin: 0; padding: 0; list-style: none; }
      El cambio de padding ahora es instantáneo y lo disimula el fade del fondo. */
   transition: background 0.35s var(--ease), border-color 0.35s var(--ease), backdrop-filter 0.35s var(--ease);
   border-bottom: 1px solid transparent;
-}
-.site-header.is-scrolled {
-  padding-top: 14px; padding-bottom: 14px;
+  /* La paleta del sitio es blanca y el header lleva ese mismo fondo siempre
+     (blanco 82% + blur), no solo al scrollear. Con el hero oscuro debajo,
+     dejarlo transparente hacía que el header "tomara" el color de la foto en
+     vez del blanco de marca. */
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   backdrop-filter: blur(10px);
   border-color: var(--border);
 }
-
-/* Arriba de todo el header flota sobre el hero, que ahora es oscuro, así que va
-   en claro; apenas aparece la barra (.is-scrolled, fondo casi blanco) vuelve a
-   la tinta normal. El logo queda afuera de la cuenta: trae su propia placa
-   oscura y se lee igual sobre los dos fondos. */
-.site-header:not(.is-scrolled) {
-  --fg: #ffffff;
-  --border-strong: rgba(255, 255, 255, 0.5);
-  color: #ffffff;
-}
-/* Con el menú mobile abierto el overlay es blanco y el header queda por encima:
-   si la X siguiera en blanco, desaparecería sobre ese fondo. */
-.site-header:not(.is-scrolled) .nav-toggle.is-open .hamburger::before,
-.site-header:not(.is-scrolled) .nav-toggle.is-open .hamburger::after {
-  background: var(--ink);
+.site-header.is-scrolled {
+  padding-top: 14px; padding-bottom: 14px;
 }
 .brand { display: flex; align-items: center; }
 /* El logo se achica con transform en vez de con height: mismo efecto, pero lo
