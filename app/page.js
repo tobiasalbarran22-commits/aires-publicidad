@@ -1,6 +1,7 @@
 import SiteHeader from "../components/SiteHeader";
 import Hero from "../components/Hero";
 import Empresa from "../components/Empresa";
+import TrabajosCarousel from "../components/TrabajosCarousel";
 import Servicios from "../components/Servicios";
 import Clientes from "../components/Clientes";
 import Proceso from "../components/Proceso";
@@ -35,6 +36,7 @@ export default async function HomePage() {
       <div className="snap-scroll">
         <Hero whatsappHref={waHref} />
         <Empresa serviceCount={SERVICIOS.length} />
+        <TrabajosCarousel photos={photos} />
         <Servicios photos={photos} />
         <Clientes clients={clients} />
         <Proceso />

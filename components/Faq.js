@@ -31,7 +31,7 @@ export default function Faq() {
   return (
     <section id="faq" className="section" style={{ background: "var(--bg-sunken)" }}>
       <div className="container">
-        <Reveal className="section-head">
+        <Reveal className="section-head" variant="left">
           <h2 className="h-section">Lo que más nos preguntan.</h2>
         </Reveal>
 

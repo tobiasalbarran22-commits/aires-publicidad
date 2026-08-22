@@ -25,7 +25,7 @@ export default function Servicios({ photos }) {
   return (
     <section id="servicios" className="section" style={{ background: "var(--bg-sunken)" }}>
       <div className="container">
-        <Reveal className="section-head">
+        <Reveal className="section-head" variant="left">
           <h2 className="h-section">Soluciones que hacen destacar tu fachada.</h2>
           <p className="lede">
             Creatividad, rapidez, puntualidad y precios accesibles — en cada tipo de cartel que

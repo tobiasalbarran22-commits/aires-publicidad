@@ -27,7 +27,7 @@ export default function Contacto({ settings }) {
       <div className="container">
         <div className="contacto-grid">
           <div>
-            <Reveal className="section-head">
+            <Reveal className="section-head" variant="right">
               <h2 className="h-section">Contanos tu proyecto.</h2>
               <p className="lede">
                 Escribinos por WhatsApp para una respuesta rápida, o dejanos tu consulta y te

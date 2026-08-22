@@ -11,7 +11,7 @@ export default function Clientes({ clients }) {
   return (
     <section id="clientes" className="section clientes">
       <div className="container">
-        <Reveal className="section-head">
+        <Reveal className="section-head" variant="right">
           <h2 className="h-section">Marcas que ya confían en nosotros.</h2>
           <p className="lede">
             Cada fachada es una carta de presentación. Empresas, locales y franquicias de todo el
