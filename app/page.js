@@ -1,3 +1,4 @@
+import ScrollProgress from "../components/ScrollProgress";
 import SiteHeader from "../components/SiteHeader";
 import Hero from "../components/Hero";
 import Empresa from "../components/Empresa";
@@ -27,6 +28,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <ScrollProgress />
       <SiteHeader
         whatsappHref={waHref}
         phone={settings.phones?.[0]}

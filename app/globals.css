@@ -149,6 +149,22 @@ ul { margin: 0; padding: 0; list-style: none; }
   backdrop-filter: blur(10px);
   border-color: var(--border);
 }
+
+/* Arriba de todo el header flota sobre el hero, que ahora es oscuro, así que va
+   en claro; apenas aparece la barra (.is-scrolled, fondo casi blanco) vuelve a
+   la tinta normal. El logo queda afuera de la cuenta: trae su propia placa
+   oscura y se lee igual sobre los dos fondos. */
+.site-header:not(.is-scrolled) {
+  --fg: #ffffff;
+  --border-strong: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+/* Con el menú mobile abierto el overlay es blanco y el header queda por encima:
+   si la X siguiera en blanco, desaparecería sobre ese fondo. */
+.site-header:not(.is-scrolled) .nav-toggle.is-open .hamburger::before,
+.site-header:not(.is-scrolled) .nav-toggle.is-open .hamburger::after {
+  background: var(--ink);
+}
 .brand { display: flex; align-items: center; }
 /* El logo se achica con transform en vez de con height: mismo efecto, pero lo
    resuelve el compositor y no dispara layout. */
@@ -193,46 +209,133 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- Hero ---------- */
+/* Única sección oscura del sitio. En vez de pisar color por color, acá se
+   redefinen los tokens: los botones, las stats, el lede y el scroll-cue ya leen
+   de --fg / --fg-muted / --border-strong, así que se adaptan solos. */
 .hero {
   min-height: 100svh; display: flex; flex-direction: column; justify-content: center; position: relative;
-  background: var(--bg); color: var(--fg); overflow: hidden;
+  overflow: hidden;
+  --fg: #ffffff;
+  --fg-muted: rgba(255, 255, 255, 0.74);
+  --border: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.38);
+  background: #0a0d11;
+  color: var(--fg);
 }
-.hero::before {
-  content: ""; position: absolute; inset: 0;
+
+.hero-media { position: absolute; inset: 0; z-index: 0; }
+
+/* La foto arranca subexpuesta y desaturada (el cartel sin alimentar) y sube a
+   exposición plena. El scale de 1.05 a 1 lo resuelve el compositor; no se anima
+   ni un solo valor que dispare layout. */
+.hero-photo {
+  object-fit: cover; object-position: 50% 24%;
+  transform: scale(1.2);
+  filter: brightness(0.3) saturate(0.4) contrast(1.06);
+  animation: heroPower 2.4s var(--ease) 0.15s forwards;
+}
+@keyframes heroPower {
+  to { filter: brightness(1) saturate(1) contrast(1); transform: scale(1.14); }
+}
+
+/* El velo es lo que garantiza el contraste del texto: así la legibilidad no
+   depende de que la foto sea oscura justo donde cae el título. */
+.hero-scrim {
+  position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(60% 50% at 82% 12%, rgba(0, 176, 242, 0.16), transparent 60%),
-    radial-gradient(40% 40% at 8% 92%, rgba(0, 176, 242, 0.08), transparent 60%);
+    /* Velo dirigido detrás del título. Las letras de Flow son turquesa muy
+       brillante y el cian de marca quedaba en 2.14:1 sobre ellas — abajo del
+       3:1 que pide AA para texto grande. Oscurecer la foto entera mataba el
+       brillo del cartel, que es justo lo que hay que mostrar, así que el
+       refuerzo va sólo donde cae el texto. */
+    radial-gradient(46% 28% at 50% 17%, rgba(7, 10, 16, 0.52), transparent 78%),
+    linear-gradient(180deg, rgba(7, 10, 16, 0.82) 0%, rgba(7, 10, 16, 0.54) 18%, rgba(7, 10, 16, 0.6) 38%, rgba(7, 10, 16, 0.88) 62%, rgba(7, 10, 16, 0.96) 100%),
+    radial-gradient(78% 58% at 50% 34%, rgba(7, 10, 16, 0.58), transparent 76%);
+}
+
+/* Una sola pasada de luz rasante, como la que se pasa sobre la cara de una letra
+   corpórea en el taller para ver el relieve. Pasa una vez al cargar y no vuelve. */
+.hero-rake {
+  position: absolute; top: -25%; bottom: -25%; left: 0; width: 45%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 255, 255, 0.1) 40%, rgba(0, 176, 242, 0.16) 54%, transparent 100%);
+  filter: blur(30px);
+  opacity: 0;
+  transform: translateX(-130%) skewX(-8deg);
+  animation: heroRake 2.8s cubic-bezier(0.3, 0.6, 0.3, 1) 0.3s forwards;
+}
+@keyframes heroRake {
+  0% { opacity: 0; transform: translateX(-130%) skewX(-8deg); }
+  16% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(330%) skewX(-8deg); }
+}
+
+.hero::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(60% 50% at 82% 12%, rgba(0, 176, 242, 0.18), transparent 60%),
+    radial-gradient(40% 40% at 8% 92%, rgba(0, 176, 242, 0.1), transparent 60%);
   pointer-events: none;
 }
+
+/* La grilla ahora es el replanteo del plano: acompaña el encendido y se retira
+   sola una vez que el cartel quedó "instalado". */
 .hero-grid {
-  position: absolute; inset: 0; opacity: 0.5; pointer-events: none;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  position: absolute; inset: 0; z-index: 1; opacity: 0.5; pointer-events: none;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, transparent, black 20%, black 75%, transparent);
+  animation: gridWithdraw 2.6s var(--ease) 0.7s forwards;
 }
-.hero-photo { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-.hero-photo img { object-fit: cover; animation: heroKenBurns 24s ease-in-out infinite alternate; transform-origin: 62% 38%; }
-.hero-photo-veil { position: absolute; inset: 0; background: rgba(255, 255, 255, 0.74); }
-@keyframes heroKenBurns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.16) translate(-1.8%, -1.2%); } }
-@media (prefers-reduced-motion: reduce) {
-  .hero-photo img { animation: none; transform: scale(1.06); }
-}
+@keyframes gridWithdraw { to { opacity: 0.16; } }
+
 .hero-inner {
-  position: relative; z-index: 2; padding: 200px clamp(20px, 4vw, 56px) 80px;
+  /* Espaciado en svh y no en px fijos: con 200px arriba el hero medía 983px
+     contra 820 de viewport y se comían las etiquetas de las stats y el cue de
+     scroll. Así la composición entra completa en una pantalla. */
+  position: relative; z-index: 2;
+  padding: clamp(84px, 10.5svh, 165px) clamp(20px, 4vw, 56px) clamp(100px, 13svh, 120px);
   max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;
 }
 .hero-title {
   font-size: clamp(3rem, 5.6vw + 1rem, 6.4rem);
-  line-height: 0.98; letter-spacing: -0.015em; margin: 26px 0 30px; max-width: 22ch;
+  line-height: 0.98; letter-spacing: -0.015em; margin: clamp(14px, 2svh, 26px) 0 clamp(14px, 2svh, 26px); max-width: 22ch;
 }
 .hero-title em {
   font-style: italic; font-weight: 500; color: var(--accent);
+  text-shadow: 0 0 34px rgba(0, 176, 242, 0.55);
 }
-.hero-inner .letter { display: inline-block; opacity: 0; filter: blur(6px); transform: translateY(0.25em); animation: signOn 0.7s var(--ease) forwards; }
-@keyframes signOn { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+
+/* Un cartel apagado se ve gris, no invisible: por eso el estado inicial es 0.09
+   y no 0. De paso el título ya está pintado desde el primer frame. */
+.hero-inner .letter {
+  display: inline-block; opacity: 0.09; filter: blur(3px); transform: translateY(0.14em);
+  animation: signOn 0.9s var(--ease) forwards;
+}
+@keyframes signOn {
+  0% { opacity: 0.09; filter: blur(3px); transform: translateY(0.14em); }
+  60% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+/* El golpe del balasto al arrancar el tubo. Son dos parpadeos cortos y de poca
+   amplitud (nunca vuelve a apagarse del todo) porque el flicker fuerte es un
+   problema real de fotosensibilidad; con reduced-motion ni siquiera ocurre. */
+.hero-inner .letter-accent { animation-name: signOnAccent; animation-duration: 1.5s; }
+@keyframes signOnAccent {
+  0% { opacity: 0.09; filter: blur(3px); transform: translateY(0.14em); }
+  38% { opacity: 1; filter: blur(0); transform: translateY(0); }
+  47% { opacity: 0.45; }
+  55% { opacity: 1; }
+  63% { opacity: 0.7; }
+  72% { opacity: 1; }
+  100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
 .hero .lede { margin: 0 auto; }
-.hero-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px 44px; margin-top: 46px; }
-.hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(28px, 4vw, 56px); margin-top: 72px; padding-top: 32px; border-top: 1px solid rgba(0, 0, 0, 0.12); width: 100%; }
+.hero-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 20px 44px; margin-top: clamp(28px, 4svh, 46px); }
+.hero-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(28px, 4vw, 56px); margin-top: clamp(34px, 5svh, 68px); padding-top: clamp(20px, 2.6svh, 32px); border-top: 1px solid var(--border); width: 100%; }
 .stat-num { font-family: var(--font-display); font-size: clamp(2rem, 2vw + 1rem, 2.8rem); color: var(--fg); }
 .stat-label { font-size: 0.82rem; color: var(--fg-muted); margin-top: 4px; max-width: 20ch; }
 .scroll-cue {
@@ -242,6 +345,58 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .scroll-cue .line { width: 1px; height: 30px; background: linear-gradient(var(--accent), transparent); animation: scrollPulse 1.8s ease-in-out infinite; }
 @keyframes scrollPulse { 0%, 100% { transform: scaleY(0.6); opacity: 0.4; } 50% { transform: scaleY(1); opacity: 1; } }
+
+@media (max-width: 700px) {
+  /* Las tres etiquetas largas hacían 320px de alto y el hero terminaba 173px
+     más largo que la pantalla: el botón flotante de WhatsApp tapaba "Creativo".
+     En mobile quedan las tres palabras, que son el mensaje; el desarrollo de
+     cada una ya está en la sección Empresa. */
+  .hero-stats { gap: 20px 26px; margin-top: clamp(28px, 4svh, 44px); }
+  .hero-stats .stat-label { display: none; }
+  .hero-stats .stat-num { font-size: 1.45rem; }
+
+  /* El botón flotante de presupuesto vive abajo a la derecha y en 375px se
+     comía 26px del cue centrado. El cue pasa a la izquierda: así conviven sin
+     tocar el CTA, que es el que trae las consultas. */
+  .scroll-cue { left: 22px; transform: none; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* La regla global del reset lleva animation-duration a 0.001ms, pero NO toca
+     animation-delay — y las palabras del título traen delay inline de hasta
+     0.46s. Sin esto el cartel arranca apagado (opacidad 0.09, que es el estado
+     "sin alimentar") y se va encendiendo igual de a poco: justo lo que
+     reduced-motion viene a evitar. Con el delay en 0 el título ya está prendido
+     y legible en el primer frame. */
+  .hero-inner .letter,
+  .hero-photo,
+  .hero-grid { animation-delay: 0s !important; }
+  /* La luz rasante es puro floreo, no aporta información: se saca del todo. */
+  .hero-rake { display: none; }
+}
+
+/* ---------- Scroll progress ---------- */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--ink));
+  z-index: 70; pointer-events: none;
+}
+
+/* ---------- Chevron showcase ---------- */
+.chev-stage { position: relative; width: 100%; height: 100%; }
+.chev-depth { position: absolute; inset: 0; will-change: transform; }
+.chev-shape {
+  position: absolute; top: 0; height: 100%; width: 44%;
+  clip-path: polygon(0 0, 58% 0, 100% 50%, 58% 100%, 0 100%, 32% 50%);
+  opacity: 0; transform: translateX(-6%);
+  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  background: var(--bg-sunken);
+}
+.chev-stage.is-visible .chev-shape { opacity: 1; transform: translateX(0); }
+.chev-shape img { object-fit: cover; }
+.chev-shape.chev-0 { left: 0%;  z-index: 3; transition-delay: 0s; }
+.chev-shape.chev-1 { left: 23%; z-index: 2; transition-delay: 0.14s; }
+.chev-shape.chev-2 { left: 46%; z-index: 1; transition-delay: 0.28s; }
 
 /* ---------- Reveal ---------- */
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
@@ -259,13 +414,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .reveal-stagger.is-visible > *:nth-child(9) { transition-delay: 0.58s; }
 .reveal-stagger.is-visible > *:nth-child(10) { transition-delay: 0.65s; }
 .reveal-stagger.is-visible > *:nth-child(11) { transition-delay: 0.72s; }
-
-/* Entrada "cinematográfica": zoom-out + desenfoque, más lenta que el reveal normal. */
-.reveal-cinema { opacity: 0; transform: scale(1.1); filter: blur(14px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease), filter 1.1s var(--ease); }
-.reveal-cinema.is-visible { opacity: 1; transform: scale(1); filter: blur(0); }
-
-/* Contenedor con "sangrado" para que la traslación del parallax no deje huecos. */
-.parallax-media { position: absolute; inset: -8%; will-change: transform; }
 
 /* ---------- Empresa ---------- */
 .empresa { background: var(--bg); }
