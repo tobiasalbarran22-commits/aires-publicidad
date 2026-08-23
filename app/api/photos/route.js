@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import crypto from "crypto";
-import { getPhotos, savePhotos } from "../../../lib/data";
+import { getPhotos, mutatePhotos } from "../../../lib/data";
 import { requireAdminApi } from "../../../lib/auth";
 import { SERVICIOS } from "../../../lib/servicios";
 
@@ -12,6 +12,11 @@ const ALLOWED = {
   "image/gif": "gif",
 };
 const MAX_BYTES = 8 * 1024 * 1024;
+
+// Sin esto, Next.js puede prerenderizar el GET en el build (no usa ninguna
+// API "dinámica" propia de Next) y servir para siempre esa foto congelada
+// en vez de ir a buscar el estado real a Blob en cada request.
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   const photos = await getPhotos();
@@ -58,9 +63,7 @@ export async function POST(request) {
     createdAt: new Date().toISOString(),
   };
 
-  const photos = await getPhotos();
-  photos.unshift(photo);
-  await savePhotos(photos);
+  await mutatePhotos((current) => [photo, ...current]);
 
   return NextResponse.json(photo, { status: 201 });
 }

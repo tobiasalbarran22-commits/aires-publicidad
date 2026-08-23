@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import crypto from "crypto";
-import { getClients, saveClients } from "../../../lib/data";
+import { getClients, mutateClients } from "../../../lib/data";
 import { requireAdminApi } from "../../../lib/auth";
 
 const ALLOWED = {
@@ -11,6 +11,8 @@ const ALLOWED = {
   "image/gif": "gif",
 };
 const MAX_BYTES = 4 * 1024 * 1024;
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   const clients = await getClients();
@@ -57,9 +59,7 @@ export async function POST(request) {
     createdAt: new Date().toISOString(),
   };
 
-  const clients = await getClients();
-  clients.push(client);
-  await saveClients(clients);
+  await mutateClients((current) => [...current, client]);
 
   return NextResponse.json(client, { status: 201 });
 }

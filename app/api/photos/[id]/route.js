@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-import { getPhotos, savePhotos } from "../../../../lib/data";
+import { getPhotos, mutatePhotos } from "../../../../lib/data";
 import { requireAdminApi } from "../../../../lib/auth";
 
 export async function DELETE(request, { params }) {
@@ -21,8 +21,7 @@ export async function DELETE(request, { params }) {
     await del(target.url).catch(() => {});
   }
 
-  const next = photos.filter((p) => p.id !== id);
-  await savePhotos(next);
+  await mutatePhotos((current) => current.filter((p) => p.id !== id));
 
   return NextResponse.json({ ok: true });
 }

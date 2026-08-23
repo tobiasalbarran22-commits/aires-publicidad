@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { del } from "@vercel/blob";
-import { getClients, saveClients } from "../../../../lib/data";
+import { getClients, mutateClients } from "../../../../lib/data";
 import { requireAdminApi } from "../../../../lib/auth";
 
 export async function PUT(request, { params }) {
@@ -9,16 +9,24 @@ export async function PUT(request, { params }) {
 
   const { id } = params;
   const body = await request.json().catch(() => ({}));
-  const clients = await getClients();
-  const target = clients.find((c) => c.id === id);
-  if (!target) {
+  const existing = await getClients();
+  if (!existing.some((c) => c.id === id)) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
-  if (typeof body.name === "string" && body.name.trim()) target.name = body.name.trim();
-  if (typeof body.url === "string") target.url = body.url.trim() || null;
 
-  await saveClients(clients);
-  return NextResponse.json(target);
+  let updated;
+  await mutateClients((current) =>
+    current.map((c) => {
+      if (c.id !== id) return c;
+      updated = {
+        ...c,
+        name: typeof body.name === "string" && body.name.trim() ? body.name.trim() : c.name,
+        url: typeof body.url === "string" ? body.url.trim() || null : c.url,
+      };
+      return updated;
+    })
+  );
+  return NextResponse.json(updated);
 }
 
 export async function DELETE(request, { params }) {
@@ -34,8 +42,7 @@ export async function DELETE(request, { params }) {
   if (target.logo && /^https?:\/\//.test(target.logo)) {
     await del(target.logo).catch(() => {});
   }
-  const next = clients.filter((c) => c.id !== id);
-  await saveClients(next);
+  await mutateClients((current) => current.filter((c) => c.id !== id));
 
   return NextResponse.json({ ok: true });
 }
