@@ -40,7 +40,7 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
   if (target.logo && /^https?:\/\//.test(target.logo)) {
-    await del(target.logo).catch(() => {});
+    await del(target.logo, { token: process.env.BLOB_READ_WRITE_TOKEN }).catch(() => {});
   }
   await mutateClients((current) => current.filter((c) => c.id !== id));
 

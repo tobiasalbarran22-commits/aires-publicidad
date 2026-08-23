@@ -18,7 +18,7 @@ export async function DELETE(request, { params }) {
   // "/uploads/ig-02.jpg") no son blobs — son archivos estáticos del build.
   // Solo hay que borrar del Blob store las que sí se subieron desde el admin.
   if (/^https?:\/\//.test(target.url)) {
-    await del(target.url).catch(() => {});
+    await del(target.url, { token: process.env.BLOB_READ_WRITE_TOKEN }).catch(() => {});
   }
 
   await mutatePhotos((current) => current.filter((p) => p.id !== id));

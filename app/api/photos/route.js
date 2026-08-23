@@ -53,6 +53,7 @@ export async function POST(request) {
     access: "public",
     addRandomSuffix: false,
     contentType: file.type,
+    token: process.env.BLOB_READ_WRITE_TOKEN,
   });
 
   const photo = {
