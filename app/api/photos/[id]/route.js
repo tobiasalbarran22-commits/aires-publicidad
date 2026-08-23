@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { del } from "@vercel/blob";
 import { getPhotos, savePhotos } from "../../../../lib/data";
 import { requireAdminApi } from "../../../../lib/auth";
 
@@ -15,8 +14,12 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
 
-  const filePath = path.join(process.cwd(), "public", target.url);
-  await fs.unlink(filePath).catch(() => {});
+  // Las fotos semilla (las que ya venían en el repo, con url tipo
+  // "/uploads/ig-02.jpg") no son blobs — son archivos estáticos del build.
+  // Solo hay que borrar del Blob store las que sí se subieron desde el admin.
+  if (/^https?:\/\//.test(target.url)) {
+    await del(target.url).catch(() => {});
+  }
 
   const next = photos.filter((p) => p.id !== id);
   await savePhotos(next);

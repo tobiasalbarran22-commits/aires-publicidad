@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 import crypto from "crypto";
 import { getPhotos, savePhotos } from "../../../lib/data";
 import { requireAdminApi } from "../../../lib/auth";
@@ -13,7 +12,6 @@ const ALLOWED = {
   "image/gif": "gif",
 };
 const MAX_BYTES = 8 * 1024 * 1024;
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
 
 export async function GET() {
   const photos = await getPhotos();
@@ -45,15 +43,18 @@ export async function POST(request) {
 
   const id = crypto.randomUUID();
   const filename = `${id}.${ext}`;
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
   const buffer = Buffer.from(await file.arrayBuffer());
-  await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+  const blob = await put(`uploads/${filename}`, buffer, {
+    access: "public",
+    addRandomSuffix: false,
+    contentType: file.type,
+  });
 
   const photo = {
     id,
     category,
     alt: String(alt),
-    url: `/uploads/${filename}`,
+    url: blob.url,
     createdAt: new Date().toISOString(),
   };
 

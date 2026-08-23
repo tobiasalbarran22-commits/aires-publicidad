@@ -5,6 +5,10 @@ const nextConfig = {
   images: {
     // AVIF/WebP: las fotos de trabajos son JPG y pesan ~627 KB en la home.
     formats: ["image/avif", "image/webp"],
+    // Fotos y logos subidos desde el panel admin viven en Vercel Blob (el
+    // filesystem de las funciones serverless es de solo lectura), así que
+    // next/image necesita permiso explícito para optimizar ese dominio.
+    remotePatterns: [{ protocol: "https", hostname: "*.public.blob.vercel-storage.com" }],
   },
 
   async headers() {

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs/promises";
-import path from "path";
+import { del } from "@vercel/blob";
 import { getClients, saveClients } from "../../../../lib/data";
 import { requireAdminApi } from "../../../../lib/auth";
 
@@ -32,8 +31,8 @@ export async function DELETE(request, { params }) {
   if (!target) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
-  if (target.logo) {
-    await fs.unlink(path.join(process.cwd(), "public", target.logo)).catch(() => {});
+  if (target.logo && /^https?:\/\//.test(target.logo)) {
+    await del(target.logo).catch(() => {});
   }
   const next = clients.filter((c) => c.id !== id);
   await saveClients(next);
