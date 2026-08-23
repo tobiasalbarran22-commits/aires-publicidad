@@ -2,10 +2,9 @@ import HeroPhoto from "./HeroPhoto";
 
 const LEAD_WORDS = ["Aires,", "tu", "marca", "en"];
 
-// No hay datos verificados de años en el mercado ni de proyectos realizados
-// (a diferencia de Visione, acá no se inventan cifras sin que el cliente las
-// confirme), así que el hero usa diferenciales cualitativos tomados de la
-// propia bio/sitio de Aires en vez del contador animado con números.
+// No hay datos verificados de años en el mercado ni de proyectos realizados, y no se
+// inventan cifras sin que el cliente las confirme. Por eso el hero usa diferenciales
+// cualitativos tomados de la propia bio/sitio de Aires en vez de contadores animados.
 const STATS = [
   {
     value: "Rápido",

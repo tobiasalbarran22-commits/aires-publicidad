@@ -39,10 +39,13 @@ export async function DELETE(request, { params }) {
   if (!target) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
+  // Primero el documento y recién después la imagen: si se borrara el logo antes y el
+  // guardado fallara, el cliente seguiría listado apuntando a un archivo inexistente
+  // (logo roto en la landing, imposible de arreglar desde el panel).
+  await mutateClients((current) => current.filter((c) => c.id !== id));
   if (target.logo && /^https?:\/\//.test(target.logo)) {
     await del(target.logo, { token: process.env.BLOB_READ_WRITE_TOKEN }).catch(() => {});
   }
-  await mutateClients((current) => current.filter((c) => c.id !== id));
 
   return NextResponse.json({ ok: true });
 }

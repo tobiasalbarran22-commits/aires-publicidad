@@ -1,7 +1,6 @@
 # Aires Publicidad — sitio web
 
-Maqueta del sitio de Aires Publicidad (cartelería integral), construida sobre la misma
-estructura de código que el sitio de Visione: Next.js con panel de administración,
+Sitio de Aires Publicidad (cartelería integral): Next.js con panel de administración,
 chatbot de presupuestos y despliegue en Vercel.
 
 ## Cómo correrlo
@@ -28,11 +27,10 @@ airespublicidad.com.ar. Quedó **sin inventar** lo que no se pudo confirmar:
 - **Dirección física** del local o taller — no está publicada en ningún lado. El mapa de
   la sección Contacto busca "Aires Publicidad" + la ciudad hasta que se cargue una
   dirección real en el panel admin (pestaña Contacto).
-- **Reseñas de Google** — no hay ninguna cargada (a diferencia del sitio de Visione, acá
-  no había reseñas para transcribir). La sección muestra un link directo a Google en
-  vez de inventar testimonios.
-- **Años en el mercado / proyectos realizados** — el hero de Visione tiene estos
-  contadores animados; el de Aires no, porque no hay una cifra real para mostrar.
+- **Reseñas de Google** — no hay ninguna cargada porque no había reseñas para transcribir.
+  La sección muestra un link directo a Google en vez de inventar testimonios.
+- **Años en el mercado / proyectos realizados** — el hero no lleva contadores animados
+  porque no hay una cifra real confirmada para mostrar.
 - **Clientes** — la sección Clientes arranca vacía (`data/clients.json`). Se completa
   desde el panel admin.
 - **Precios del chatbot** (`data/pricing.json`) — son valores de ejemplo, hay que

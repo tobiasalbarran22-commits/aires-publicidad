@@ -108,9 +108,8 @@ export default function Contacto({ settings }) {
           </Reveal>
 
           {/* No hay reseñas reales cargadas todavía: se muestra un enlace directo a
-              Google en vez de inventar testimonios. Cuando el cliente confirme
-              reseñas reales, se pueden agregar acá con el mismo formato que usa
-              Visione (ver components/Contacto.js del proyecto "visione"). */}
+              Google en vez de inventar testimonios. Cuando Aires confirme reseñas
+              reales, se agregan acá con el mismo formato que el resto de la sección. */}
           <Reveal className="reviews-panel reviews-panel-empty">
             <div className="reviews-panel-head">
               <h3>Reseñas en Google</h3>

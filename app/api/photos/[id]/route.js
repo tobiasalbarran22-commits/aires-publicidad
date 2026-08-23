@@ -43,14 +43,16 @@ export async function DELETE(request, { params }) {
     return NextResponse.json({ error: "No encontrado" }, { status: 404 });
   }
 
+  // Primero el documento y recién después la imagen: si se borrara el archivo antes y el
+  // guardado fallara, la foto seguiría en la galería del tipo de cartel con la imagen rota.
+  await mutatePhotos((current) => current.filter((p) => p.id !== id));
+
   // Las fotos semilla (las que ya venían en el repo, con url tipo
   // "/uploads/ig-02.jpg") no son blobs — son archivos estáticos del build.
   // Solo hay que borrar del Blob store las que sí se subieron desde el admin.
   if (/^https?:\/\//.test(target.url)) {
     await del(target.url, { token: process.env.BLOB_READ_WRITE_TOKEN }).catch(() => {});
   }
-
-  await mutatePhotos((current) => current.filter((p) => p.id !== id));
 
   return NextResponse.json({ ok: true });
 }
