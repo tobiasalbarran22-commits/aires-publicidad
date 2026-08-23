@@ -47,7 +47,32 @@ export default function FotosTab({ initialPhotos }) {
     if (res.ok) setPhotos((p) => p.filter((x) => x.id !== id));
   }
 
+  async function handleSetCover(photo) {
+    const res = await fetch(`/api/photos/${photo.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cover: true }),
+    });
+    if (!res.ok) return;
+    setPhotos((list) =>
+      list.map((x) => {
+        if (x.id === photo.id) return { ...x, isCover: true };
+        if (x.category === photo.category) return { ...x, isCover: false };
+        return x;
+      })
+    );
+  }
+
   const labelFor = (id) => SERVICIOS.find((s) => s.id === id)?.label || id;
+
+  // Portada efectiva por categoría: la marcada explícitamente, o si
+  // todavía no se eligió ninguna, la primera de esa categoría — el mismo
+  // criterio que usa la sección Servicios del sitio.
+  const coverIdByCategory = {};
+  for (const p of photos) {
+    if (coverIdByCategory[p.category] === undefined) coverIdByCategory[p.category] = p.id;
+    if (p.isCover) coverIdByCategory[p.category] = p.id;
+  }
 
   return (
     <>
@@ -89,15 +114,29 @@ export default function FotosTab({ initialPhotos }) {
         <h2>Fotos cargadas ({photos.length})</h2>
         {photos.length === 0 ? <p className="hint">Todavía no hay fotos.</p> : null}
         <div className="thumb-grid">
-          {photos.map((p) => (
-            <div className="thumb" key={p.id}>
-              <img src={p.url} alt={p.alt || labelFor(p.category)} />
-              <div className="cat">{labelFor(p.category)}</div>
-              <button type="button" className="del" onClick={() => handleDelete(p.id)} aria-label="Eliminar foto">
-                ✕
-              </button>
-            </div>
-          ))}
+          {photos.map((p) => {
+            const isCover = coverIdByCategory[p.category] === p.id;
+            return (
+              <div className="thumb" key={p.id}>
+                <img src={p.url} alt={p.alt || labelFor(p.category)} />
+                <div className="cat">{labelFor(p.category)}</div>
+                {isCover ? <span className="badge-cover">Portada</span> : null}
+                {!isCover ? (
+                  <button
+                    type="button"
+                    className="set-cover"
+                    onClick={() => handleSetCover(p)}
+                    title="Usar como portada de este tipo de cartel"
+                  >
+                    Marcar como portada
+                  </button>
+                ) : null}
+                <button type="button" className="del" onClick={() => handleDelete(p.id)} aria-label="Eliminar foto">
+                  ✕
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

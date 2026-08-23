@@ -20,7 +20,9 @@ export default function Servicios({ photos }) {
 
   const filtered = SERVICIOS.filter((s) => group === "all" || s.group === group);
   const openServicio = openId ? SERVICIOS.find((s) => s.id === openId) : null;
-  const openPhotos = openId ? photosByCategory[openId] || [] : [];
+  const openPhotos = openId
+    ? [...(photosByCategory[openId] || [])].sort((a, b) => (b.isCover ? 1 : 0) - (a.isCover ? 1 : 0))
+    : [];
 
   return (
     <section id="servicios" className="section" style={{ background: "var(--bg-sunken)" }}>
@@ -57,6 +59,7 @@ export default function Servicios({ photos }) {
           {filtered.map((s, i) => {
             const pics = photosByCategory[s.id] || [];
             const hasPics = pics.length > 0;
+            const cover = pics.find((p) => p.isCover) || pics[0];
             return (
               <article
                 key={s.id}
@@ -68,7 +71,7 @@ export default function Servicios({ photos }) {
                 {hasPics ? (
                   <div className="svc-thumb">
                     <Image
-                      src={pics[0].url}
+                      src={cover.url}
                       alt={s.label}
                       fill
                       sizes="(max-width: 620px) 100vw, (max-width: 980px) 50vw, 380px"

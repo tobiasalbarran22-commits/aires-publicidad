@@ -54,6 +54,15 @@
   position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%;
   background: rgba(20,17,10,0.65); color: #fff; border: none; cursor: pointer; font-size: 0.8rem; line-height: 1;
 }
+.thumb .badge-cover {
+  position: absolute; top: 6px; left: 6px; padding: 3px 8px; border-radius: 999px;
+  background: var(--accent); color: var(--accent-ink); font-size: 0.66rem; font-weight: 600;
+}
+.thumb .set-cover {
+  display: block; width: 100%; border: none; border-top: 1px solid var(--border);
+  background: var(--bg); color: var(--fg-muted); font-size: 0.66rem; padding: 5px 8px; cursor: pointer;
+}
+.thumb .set-cover:hover { color: var(--fg); background: var(--bg-sunken); }
 
 .client-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .client-row img { width: 52px; height: 52px; flex: none; object-fit: contain; background: var(--bg-sunken); border-radius: var(--radius-sm); padding: 6px; }

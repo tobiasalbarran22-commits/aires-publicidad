@@ -3,6 +3,35 @@ import { del } from "@vercel/blob";
 import { getPhotos, mutatePhotos } from "../../../../lib/data";
 import { requireAdminApi } from "../../../../lib/auth";
 
+export async function PUT(request, { params }) {
+  const denied = await requireAdminApi();
+  if (denied) return denied;
+
+  const { id } = params;
+  const body = await request.json().catch(() => ({}));
+  if (body.cover !== true) {
+    return NextResponse.json({ error: "Nada para actualizar" }, { status: 400 });
+  }
+
+  const existing = await getPhotos();
+  const target = existing.find((p) => p.id === id);
+  if (!target) {
+    return NextResponse.json({ error: "No encontrado" }, { status: 404 });
+  }
+
+  // Portada única por tipo de cartel: al marcar esta, se desmarca cualquier
+  // otra foto de la misma categoría que ya lo fuera.
+  const next = await mutatePhotos((current) =>
+    current.map((p) => {
+      if (p.id === id) return { ...p, isCover: true };
+      if (p.category === target.category) return { ...p, isCover: false };
+      return p;
+    })
+  );
+
+  return NextResponse.json(next.find((p) => p.id === id));
+}
+
 export async function DELETE(request, { params }) {
   const denied = await requireAdminApi();
   if (denied) return denied;
