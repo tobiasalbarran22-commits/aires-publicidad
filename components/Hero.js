@@ -1,4 +1,4 @@
-import HeroPhoto from "./HeroPhoto";
+import HeroVideo from "./HeroVideo";
 
 const LEAD_WORDS = ["Aires,", "tu", "marca", "en"];
 
@@ -24,10 +24,7 @@ export default function Hero({ whatsappHref }) {
   let delayIndex = 0;
   return (
     <section id="top" className="hero">
-      <HeroPhoto
-        src="/uploads/ig-09.jpg"
-        alt="Cartel corpóreo iluminado fabricado por Aires Publicidad"
-      />
+      <HeroVideo />
       <div className="hero-grid" aria-hidden="true" />
       <div className="hero-inner">
         <h1 className="hero-title">

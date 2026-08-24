@@ -218,6 +218,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .hero-photo img { animation: none; transform: scale(1.06); }
 }
+/* Video de fondo del hero, activado desde HeroVideo.js. Mismo veil (0.74) que usaba la foto:
+   acá el video cubre toda la pantalla (a diferencia de un fondo de sección más chico), así que
+   se ve con claridad sin necesitar blur — se verificó simulando el recorte real antes de subirlo. */
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+.hero-video-veil { position: absolute; inset: 0; z-index: 1; background: rgba(255, 255, 255, 0.74); }
 .hero-inner {
   position: relative; z-index: 2; padding: 200px clamp(20px, 4vw, 56px) 80px;
   max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;
@@ -285,14 +290,8 @@ ul { margin: 0; padding: 0; list-style: none; }
 .reveal-stagger.is-visible > *:nth-child(11) { transition-delay: 0.72s; }
 
 /* ---------- Empresa ---------- */
-.empresa { background: var(--bg); overflow: hidden; }
-/* Un velo tan opaco como el del Hero (0.74) dejaba el video invisible acá: la sección no
-   ocupa toda la pantalla como el Hero, así que el video se ve en una franja mucho más chica
-   y con menos contraste de por sí. El blur compensa bajando el velo sin que el detalle del
-   video (ramas, cartelería de fondo) le compita al texto en contraste. */
-.empresa-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: blur(6px); transform: scale(1.08); }
-.empresa-video-veil { position: absolute; inset: 0; z-index: 1; background: rgba(255, 255, 255, 0.6); }
-.empresa-grid { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
+.empresa { background: var(--bg); }
+.empresa-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(40px, 6vw, 90px); align-items: start; }
 .empresa-figure {
   position: relative; aspect-ratio: 3/2; border-radius: var(--radius-lg); overflow: hidden;
   background: var(--bg-sunken); box-shadow: var(--shadow-card); border: 1px solid var(--border);

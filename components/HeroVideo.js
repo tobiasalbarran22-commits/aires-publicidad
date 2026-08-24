@@ -1,19 +1,12 @@
 /**
- * Video de fondo para el hero. PREPARADO PERO NO CONECTADO.
+ * Video de fondo del hero. Reemplaza a HeroPhoto (que queda sin usar, no borrado, como
+ * opción de vuelta atrás — ver components/HeroPhoto.js).
  *
- * Todavía no está decidido si el cliente tiene material, así que este componente
- * no se importa en ningún lado. Para activarlo:
- *
- *   1. Dejar el video en public/video/hero.mp4 y un poster en public/video/hero-poster.jpg
- *   2. En components/Hero.js, dentro de <section className="hero">, reemplazar
- *      <div className="hero-grid" /> por <HeroVideo />
- *   3. Agregar en globals.css:
- *        .hero-video { position:absolute; inset:0; width:100%; height:100%;
- *                      object-fit:cover; z-index:0; }
- *        .hero-inner { position:relative; z-index:2; }   // ya lo tiene
- *      y un velo para que el texto negro siga legible sobre el video:
- *        .hero-video-veil { position:absolute; inset:0; z-index:1;
- *                           background:rgba(255,255,255,0.72); }
+ * Origen del clip: recorte de un video del Instagram de Aires (@airespublicidadygrafica)
+ * mostrando el cartel de Central Carnes Boutique. Se cortó el cierre de la Historia
+ * (pantalla negra con el logo de Instagram) y se re-codificó sin audio a 576px de ancho
+ * (resolución nativa del original, sin upscalear) — pesaba 3,8 MB en 21,5s, quedó en
+ * ~1,95 MB en 17s.
  *
  * Requisitos del archivo (no negociables para no arruinar el LCP):
  *   - Comprimido a 2-3 MB COMO MÁXIMO. De referencia, el hero de Techint pesa
