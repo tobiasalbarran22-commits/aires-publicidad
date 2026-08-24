@@ -1,5 +1,6 @@
 import Reveal from "./Reveal";
 import ChevronShowcase from "./ChevronShowcase";
+import EmpresaVideo from "./EmpresaVideo";
 
 export default function Empresa({ serviceCount }) {
   const stats = [
@@ -10,6 +11,7 @@ export default function Empresa({ serviceCount }) {
 
   return (
     <section id="empresa" className="section empresa">
+      <EmpresaVideo />
       <div className="container empresa-grid">
         <Reveal as="figure" className="empresa-figure" style={{ margin: 0 }}>
           <ChevronShowcase />
