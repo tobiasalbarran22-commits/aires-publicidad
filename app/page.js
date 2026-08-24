@@ -36,9 +36,9 @@ export default async function HomePage() {
       />
       <div className="snap-scroll">
         <Hero whatsappHref={waHref} />
+        <Clientes clients={clients} />
         <Empresa serviceCount={SERVICIOS.length} />
         <Servicios photos={photos} />
-        <Clientes clients={clients} />
         <Proceso />
         <Faq />
         <Contacto settings={settings} />

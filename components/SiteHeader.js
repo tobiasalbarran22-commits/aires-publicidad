@@ -4,9 +4,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const LINKS = [
+  { href: "#clientes", label: "Clientes" },
   { href: "#empresa", label: "Empresa" },
   { href: "#servicios", label: "Carteles" },
-  { href: "#clientes", label: "Clientes" },
   { href: "#faq", label: "Preguntas" },
   { href: "#contacto", label: "Contacto" },
 ];

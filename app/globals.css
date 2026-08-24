@@ -218,11 +218,14 @@ ul { margin: 0; padding: 0; list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .hero-photo img { animation: none; transform: scale(1.06); }
 }
-/* Video de fondo del hero, activado desde HeroVideo.js. Mismo veil (0.74) que usaba la foto:
-   acá el video cubre toda la pantalla (a diferencia de un fondo de sección más chico), así que
-   se ve con claridad sin necesitar blur — se verificó simulando el recorte real antes de subirlo. */
-.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
-.hero-video-veil { position: absolute; inset: 0; z-index: 1; background: rgba(255, 255, 255, 0.74); }
+/* Video de fondo del hero, activado desde HeroVideo.js. El clip incluye un cartel real
+   ("CENTRAL CARNES") con su propio texto legible: sin blur, ese texto compite directo con el
+   título del sitio en cualquier punto del loop, incluso con velo bajo — se probó en varias
+   combinaciones (sin velo, velo liviano solo, blur solo) simulando el recorte real antes de
+   descartarlas. El blur saca esa competencia sin necesitar el velo denso original (0.74),
+   que se sentía como una capa blanca opaca encima del video. */
+.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; filter: blur(6px); transform: scale(1.08); }
+.hero-video-veil { position: absolute; inset: 0; z-index: 1; background: rgba(255, 255, 255, 0.55); }
 .hero-inner {
   position: relative; z-index: 2; padding: 200px clamp(20px, 4vw, 56px) 80px;
   max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;
