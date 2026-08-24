@@ -5,8 +5,11 @@
  * Origen del clip: recorte de un video del Instagram de Aires (@airespublicidadygrafica)
  * mostrando el cartel de Central Carnes Boutique. Se cortó el cierre de la Historia
  * (pantalla negra con el logo de Instagram) y se re-codificó sin audio a 576px de ancho
- * (resolución nativa del original, sin upscalear) — pesaba 3,8 MB en 21,5s, quedó en
- * ~1,95 MB en 17s.
+ * (resolución nativa del original, sin upscalear) con CRF 22 — pesaba 3,8 MB en 21,5s,
+ * quedó en ~2,9 MB en 17s. Sin blur ni velo pesado (a pedido): se ve nítido, pero el cartel
+ * que aparece en el clip tiene su propio texto legible que puede competir un poco con el
+ * título en algún punto del loop — el text-shadow de .hero-title en globals.css ayuda, pero
+ * no lo resuelve del todo.
  *
  * Requisitos del archivo (no negociables para no arruinar el LCP):
  *   - Comprimido a 2-3 MB COMO MÁXIMO. De referencia, el hero de Techint pesa
