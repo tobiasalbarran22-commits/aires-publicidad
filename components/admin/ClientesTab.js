@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 
-export default function ClientesTab({ initialClients }) {
-  const [clients, setClients] = useState(initialClients);
+export default function ClientesTab({ clients, setClients }) {
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
   const [file, setFile] = useState(null);
@@ -40,8 +39,19 @@ export default function ClientesTab({ initialClients }) {
 
   async function handleDelete(id) {
     if (!confirm("¿Eliminar este cliente?")) return;
-    const res = await fetch(`/api/clients/${id}`, { method: "DELETE" });
-    if (res.ok) setClients((c) => c.filter((x) => x.id !== id));
+    setError("");
+    const res = await fetch(`/api/clients/${id}`, { method: "DELETE" }).catch(() => null);
+    if (!res) {
+      setError("No se pudo conectar con el servidor. Revisá la conexión e intentá de nuevo.");
+      return;
+    }
+    // 404 = ya no existe en el servidor, así que también hay que sacarlo de la lista.
+    if (!res.ok && res.status !== 404) {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || "No se pudo eliminar el cliente");
+      return;
+    }
+    setClients((c) => c.filter((x) => x.id !== id));
   }
 
   async function handleRename(id, field, value) {
@@ -49,11 +59,12 @@ export default function ClientesTab({ initialClients }) {
   }
 
   async function handleSave(client) {
-    await fetch(`/api/clients/${client.id}`, {
+    const res = await fetch(`/api/clients/${client.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: client.name, url: client.url }),
-    });
+    }).catch(() => null);
+    if (!res || !res.ok) setError(`No se pudieron guardar los cambios de "${client.name}"`);
   }
 
   return (

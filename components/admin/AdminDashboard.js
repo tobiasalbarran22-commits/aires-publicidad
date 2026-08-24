@@ -17,6 +17,11 @@ const TABS = [
 export default function AdminDashboard({ initialSettings, initialClients, initialPhotos, initialPricing }) {
   const router = useRouter();
   const [tab, setTab] = useState("fotos");
+  // Fotos y clientes viven acá y no dentro de cada pestaña: al cambiar de tab el componente
+  // de la pestaña se desmonta, y si el estado viviera adentro volvería a arrancar desde los
+  // datos del servidor de cuando cargó la página — o sea, lo recién borrado reaparecía.
+  const [clients, setClients] = useState(initialClients);
+  const [photos, setPhotos] = useState(initialPhotos);
 
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -56,8 +61,8 @@ export default function AdminDashboard({ initialSettings, initialClients, initia
           ))}
         </div>
 
-        {tab === "fotos" ? <FotosTab initialPhotos={initialPhotos} /> : null}
-        {tab === "clientes" ? <ClientesTab initialClients={initialClients} /> : null}
+        {tab === "fotos" ? <FotosTab photos={photos} setPhotos={setPhotos} /> : null}
+        {tab === "clientes" ? <ClientesTab clients={clients} setClients={setClients} /> : null}
         {tab === "contacto" ? <ContactoTab initialSettings={initialSettings} /> : null}
         {tab === "precios" ? <PreciosTab initialPricing={initialPricing} /> : null}
       </div>

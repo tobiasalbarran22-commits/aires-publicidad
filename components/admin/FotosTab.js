@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { SERVICIOS } from "../../lib/servicios";
 
-export default function FotosTab({ initialPhotos }) {
-  const [photos, setPhotos] = useState(initialPhotos);
+export default function FotosTab({ photos, setPhotos }) {
   const [category, setCategory] = useState(SERVICIOS[0].id);
   const [alt, setAlt] = useState("");
   const [file, setFile] = useState(null);
@@ -43,17 +42,35 @@ export default function FotosTab({ initialPhotos }) {
 
   async function handleDelete(id) {
     if (!confirm("¿Eliminar esta foto?")) return;
-    const res = await fetch(`/api/photos/${id}`, { method: "DELETE" });
-    if (res.ok) setPhotos((p) => p.filter((x) => x.id !== id));
+    setError("");
+    setOk("");
+    const res = await fetch(`/api/photos/${id}`, { method: "DELETE" }).catch(() => null);
+    if (!res) {
+      setError("No se pudo conectar con el servidor. Revisá la conexión e intentá de nuevo.");
+      return;
+    }
+    // 404 = ya no existe en el servidor, así que también hay que sacarla de la grilla.
+    if (!res.ok && res.status !== 404) {
+      const data = await res.json().catch(() => ({}));
+      setError(data.error || "No se pudo eliminar la foto");
+      return;
+    }
+    setPhotos((p) => p.filter((x) => x.id !== id));
   }
 
   async function handleSetCover(photo) {
+    setError("");
+    setOk("");
     const res = await fetch(`/api/photos/${photo.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ cover: true }),
-    });
-    if (!res.ok) return;
+    }).catch(() => null);
+    if (!res || !res.ok) {
+      const data = res ? await res.json().catch(() => ({})) : {};
+      setError(data.error || "No se pudo marcar la portada");
+      return;
+    }
     setPhotos((list) =>
       list.map((x) => {
         if (x.id === photo.id) return { ...x, isCover: true };
